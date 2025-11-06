@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
+<script>
 document.addEventListener("DOMContentLoaded", function() {
   var plot = document.getElementsByClassName("plotly-graph-div")[0];
 
@@ -19,15 +19,28 @@ document.addEventListener("DOMContentLoaded", function() {
       name: 'Student Annotation'
     });
 
-    // Send to Google Sheets via webhook
-    fetch("https://sheetdb.io/api/v1/rb8zgntocyoom", {
+    // Send to Google Sheets via SheetDB
+    fetch("https://sheetdb.io/api/v1/YOUR_UNIQUE_ID", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: [{ time: x, value: y }] })
+      body: JSON.stringify({
+        data: [{ time: x, value: y }]
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error("Failed to send annotation:", response.statusText);
+      } else {
+        console.log("Annotation sent successfully");
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
     });
   });
 });
 </script>
+
 
 <meta charset="utf-8"/>
 <style>body{background-color:white;}</style>
